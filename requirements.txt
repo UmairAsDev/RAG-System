@@ -10,3 +10,5 @@ docx
 pypdf
 python-dotenv
 openai
+pyyaml
+einops
