@@ -1,0 +1,7 @@
+pandas
+numpy
+sentence-transformers
+langchain
+qdrant-client
+huggingface
+streamlit
