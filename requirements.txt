@@ -5,3 +5,8 @@ langchain
 qdrant-client
 huggingface
 streamlit
+huggingface-hub
+docx
+pypdf
+python-dotenv
+openai
