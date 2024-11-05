@@ -12,3 +12,4 @@ python-dotenv
 openai
 pyyaml
 einops
+torch
