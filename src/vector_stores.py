@@ -1,9 +1,5 @@
 from qdrant_client import QdrantClient
-from langchain.embeddings import HuggingFaceEmbeddings
-from transformers import DistilBertModel
-
-
-embed_model = HuggingFaceEmbeddings(model_name="distilbert-base-uncased")
+from llm_embedings import llm_embeddings
 
 qdrant_client = QdrantClient(
     
