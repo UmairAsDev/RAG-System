@@ -1,18 +1,29 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-text_splitters = RecursiveCharacterTextSplitter(
-    chunk_size = 150,
-    chunk_overlap =30,
-    # length_function = len,
-    # is_separator_regex= False,
-)
 
+def text_splitter(pages):
+    try:
+        text_splitters = RecursiveCharacterTextSplitter(
+            separators= "\n",
+            chunk_size = 900,
+            chunk_overlap = 100,
+            length_function = len
+        ) 
+        splitted_text = text_splitters.split_documents(pages)
+        return splitted_text
+    except Exception as e:
+        print(f"document cannot be splitted into chunks..{e}")
+        return None
+    
+    
 
-loader = PyPDFLoader("data\documents\embeddings\My Resume.pdf")
-pages = loader.load()
-
-split = text_splitters.split_documents(pages)
-
-print(pages)
+def document_loader(data):
+    try:
+        loader = PyPDFLoader(data)
+        document = loader.load()
+        return document
+    except Exception as e:
+        print(f"please upload the correct document...{e}")
+        return None
 
