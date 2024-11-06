@@ -27,3 +27,6 @@ def document_loader(data):
         print(f"please upload the correct document...{e}")
         return None
 
+
+def format_doc(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
