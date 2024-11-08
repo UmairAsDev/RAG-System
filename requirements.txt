@@ -13,3 +13,5 @@ openai
 pyyaml
 einops
 torch
+distance
+langchain_community
