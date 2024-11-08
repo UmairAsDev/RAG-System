@@ -1,7 +1,8 @@
 import streamlit as st
 from pages import home, data_upload, data_analysis, query_interface, model_selection, history, about
 
-# Dictionary for page mapping
+st.set_page_config("RAG-PRO")
+
 PAGES = {
     "Home": home,
     "Data Upload": data_upload,
@@ -12,7 +13,6 @@ PAGES = {
     "About": about
 }
 
-# Sidebar for Navigation
 st.sidebar.title("Navigation")
 selection = st.sidebar.radio("Go to", list(PAGES.keys()))
 
