@@ -1,4 +1,4 @@
-from qdrant_client import QdrantClient
+from langchain_qdrant import QdrantVectorStore
 from llm_embedings import llm_embeddings
 import yaml
 
@@ -11,7 +11,7 @@ def get_vector_store():
         qdrant_api = secrets["QDRANT_API"]
         collection_name = "Multi_Rag_System"
 
-        qdrant_client = QdrantClient(
+        qdrant_client = QdrantVectorStore.from_documents(
             embed_model = llm_embeddings,
             url = qdrant_url,
             prefer_grpc=True,
