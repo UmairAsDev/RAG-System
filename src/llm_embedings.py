@@ -1,6 +1,6 @@
 from sentence_transformers import SentenceTransformer
 
-def llm_embeddings(sentences):
+def llm_embeddings(documents):
     """
     Loads the SentenceTransformer model for generating embeddings.
     
@@ -9,15 +9,15 @@ def llm_embeddings(sentences):
     """
     try:
         embed_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-        embeddings = embed_model.encode(sentences)
+        embeddings = embed_model.encode(documents)
         return embeddings
     except Exception as e:
         print(f"Error Loading loading embeddings {e}")
         return None
     
 
-sentences = ["This is a test sentence.", "Here is another one."]
-embeddings = llm_embeddings(sentences)
+documents = ["This is a test sentence.", "Here is another one."]
+embeddings = llm_embeddings(documents)
 
 if embeddings is not None:
     print(embeddings)
