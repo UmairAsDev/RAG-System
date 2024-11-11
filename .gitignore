@@ -1,2 +1,5 @@
 env
-notebooks
+notebooks\
+rag-systems.ipynb
+
+__pycache__
