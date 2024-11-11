@@ -29,4 +29,8 @@ def document_loader(data):
 
 
 def format_doc(docs):
-    return "\n\n".join(doc.page_content for doc in docs)
+    try:
+        return "\n\n".join(doc.page_content for doc in docs)
+    except Exception as e:
+        print(f"Error Formatting the document....")
+        return None
