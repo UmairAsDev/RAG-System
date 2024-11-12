@@ -23,3 +23,5 @@ def vector_database(docs):
     except Exception as e:
         print(f"Vector store is not created..{e}")
         return None
+    
+

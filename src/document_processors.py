@@ -6,6 +6,7 @@ from langchain_community.document_loaders.text import TextLoader
 
 def load_document(document):
     try:
+        
         if document.endswith(".pdf"):
             loader = PyPDFLoader(document)
             content = loader.load()
@@ -17,11 +18,17 @@ def load_document(document):
             content = loader.load()
         elif document.endswith(".txt"):
             loader = TextLoader(document)
-            content = loader.load()   
-            return content
+            content = loader.load()
+        else:
+            print("Unsupported document format.")
+            return None
+
+        return content 
+
     except Exception as e:
-        print(f"Cannot load Document...{e}")
+        print(f"Cannot load document... {e}")
         return None
+
     
    
    
@@ -41,7 +48,4 @@ def document_splitters(document):
         return None
     
 
-document = "this is the new text for splitting\n?"
 
-splitted = document_splitters(document)
-print(splitted)
