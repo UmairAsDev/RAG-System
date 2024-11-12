@@ -1,5 +1,7 @@
 env
-notebooks\
-rag-systems.ipynb
+notebooks
+*/.ipynb_checkpoints/*.ipynb
+
+
 
 __pycache__
