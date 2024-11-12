@@ -76,4 +76,29 @@ documents = ["Sample text one", "Sample text two", "Sample text three"]
 if qdrant_client:
     add_documents(qdrant_client, documents)
     
-        
+
+# from qdrant_client import QdrantClient
+# from qdrant_client.models import PointStruct
+# import yaml
+
+# with open(r'config/config.yaml', 'r') as file:
+#         secrets = yaml.safe_load(file)
+
+#         # qdrant_url = secrets["QDRANT_URL"]
+#         # qdrant_api = secrets["QDRANT_API"]
+
+# qdrant_client = QdrantClient(url=secrets["QDRANT_URL"], api_key=secrets["QDRANT_API"])
+
+# def store_document_embeddings(embeddings, document_id):
+#     """Store embeddings in Qdrant."""
+#     point = PointStruct(id=document_id, vector=embeddings, payload={"doc_id": document_id})
+#     qdrant_client.upsert(collection_name="Multi_Rag_System", points=[point])
+
+# def retrieve_similar_embeddings(query_embedding, limit=5):
+#     """Retrieve similar embeddings from Qdrant."""
+#     search_results = qdrant_client.search(
+#         collection_name="Multi_Rag_System",
+#         query_vector=query_embedding,
+#         limit=limit
+#     )
+#     return search_results
