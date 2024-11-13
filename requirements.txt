@@ -16,3 +16,7 @@ torch
 distance
 langchain_community
 tiktoken
+pydub
+gTTS
+SpeechRecognition
+PyAudio
