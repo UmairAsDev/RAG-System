@@ -1,7 +1,7 @@
 from langchain_qdrant import QdrantVectorStore
 import yaml
 from llm_embedings import embeddings
-from document_processors import document_splitters
+
 
 
 def vector_database(docs):

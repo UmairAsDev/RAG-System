@@ -9,5 +9,4 @@ def embeddings():
         print(f"cannot create embeddings...{e}")
         return None        
 
-
-        
+     
