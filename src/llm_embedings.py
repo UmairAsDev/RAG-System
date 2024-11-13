@@ -1,10 +1,10 @@
 from sentence_transformers import SentenceTransformer
-from document_processors import load_document
+from langchain_huggingface import HuggingFaceEmbeddings
 
 def embeddings():
     try:
-        embed_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
-        return embed_model
+       embeddings_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
+       return embeddings_model
     except Exception as e:
         print(f"cannot create embeddings...{e}")
         return None        
