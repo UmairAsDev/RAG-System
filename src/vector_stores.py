@@ -10,16 +10,10 @@ def vector_database(docs):
             secrets = yaml.safe_load(file)
             url = secrets["QDRANT_URL"]
             api_key = secrets["QDRANT_API"]
-            
-        docData = document_splitters(docs)
-        if docData or not isinstance(docData, list):
-            raise ValueError (f"Document Processing returned empty or invalid format.")
         
         embedding = embeddings()
-
-          
         qdrant_client = QdrantVectorStore.from_documents(
-            docData,
+            docs,
             embedding,
             url=url,
             prefer_grpc = True,

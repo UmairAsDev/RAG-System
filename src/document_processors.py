@@ -1,4 +1,4 @@
-from langchain_community.document_loaders import PyPDFLoader ,Docx2txtLoader
+from langchain_community.document_loaders import PyPDFLoader, Docx2txtLoader
 from langchain_community.document_loaders.csv_loader import CSVLoader
 from langchain_community.document_loaders.text import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -48,7 +48,7 @@ def document_splitters(document):
             page_split = text_splitters.split_text(page.page_content)
             for page_sub_split in page_split:
                 page_no = page.metadata.get('page', 0)
-                metadata = {'source': document, 'page_no' : page_no + 1}
+                metadata = {'source': "Uploaded_document", 'page_no' : page_no + 1}
                 doc_string = Document(page_content=page_sub_split, metadata=metadata)
                 docs.append(doc_string)
         return docs
