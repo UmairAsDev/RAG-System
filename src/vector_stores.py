@@ -1,10 +1,11 @@
 from langchain_qdrant import QdrantVectorStore
 import yaml
 from llm_embedings import embeddings
+from document_processors import document_splitters
 
 embedding = embeddings()
 
-def vector_database(docs):
+def vector_database(docs=document_splitters()):
     try:
         with open ('config/config.yaml', 'r') as file:
             secrets = yaml.safe_load(file)
@@ -23,5 +24,6 @@ def vector_database(docs):
     except Exception as e:
         print(f"Vector store is not created..{e}")
         return None
-    
+
+
 
