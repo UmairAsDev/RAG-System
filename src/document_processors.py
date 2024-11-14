@@ -32,16 +32,29 @@ def load_document(document):
 
     
    
-   
+
  
 def document_splitters(document):
     try:
         docs = []
+        MARKDOWN_SEPARATORS = [
+            "\n#{1,6} ",
+            "```\n",
+            "\n\\*\\*\\*+\n",
+            "\n---+\n",
+            "\n___+\n",
+            "\n\n",
+            "\n",
+            " ",
+            "",
+        ]
         text_splitters = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
             chunk_size = 1000,
             chunk_overlap = 100,
-            is_separator_regex= False,
+            add_start_index = True,
+            strip_whitespace = True,
             encoding_name="cl100k_base",
+            separators = MARKDOWN_SEPARATORS,
         )
         
         for page in document:
@@ -55,7 +68,9 @@ def document_splitters(document):
     except Exception as e:
         print(f"cannot split the document..{e}")
         return None
-    
+
+def format_doc(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
 
 
     
