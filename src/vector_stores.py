@@ -6,7 +6,7 @@ from llm_embedings import embeddings
 
 def vector_database(docs):
     try:
-        with open ('config/config.yaml', 'r') as file:
+        with open(r'config/config.yaml', 'r') as file:
             secrets = yaml.safe_load(file)
             url = secrets["QDRANT_URL"]
             api_key = secrets["QDRANT_API"]
