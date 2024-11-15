@@ -6,7 +6,6 @@ from langchain.memory import ConversationBufferWindowMemory
 from transformers import pipeline
 import torch
 from vector_stores import vector_database
-from document_processors import load_document, document_splitters, format_doc
 
 def retrieval_engine(model_name, docs):
     # Load language model
@@ -60,9 +59,4 @@ def retrieval_engine(model_name, docs):
         response = conversation_chain.run(query=query, retrieved_docs=retrieved_text)
         print("AI:", response)
 
-# Example usage
-# file_path = "data\documents\embeddings\My_Resume.pdf"
-# loader = load_document(file_path)
-# splitter = document_splitters(loader)
-# formatted = format_doc(splitter)
-# retrieval_engine("GPT2", formatted)
+

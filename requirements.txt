@@ -19,3 +19,7 @@ PyAudio
 beautifulsoup4
 pypdf
 docx
+uuid-v9
+PyPDF2
+python-docx
+docx2txt
