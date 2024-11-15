@@ -6,14 +6,10 @@ qdrant-client
 huggingface
 streamlit
 huggingface-hub
-docx
-pypdf
 python-dotenv
 openai
 pyyaml
-einops
 torch
-distance
 langchain_community
 tiktoken
 pydub
@@ -21,3 +17,5 @@ gTTS
 SpeechRecognition
 PyAudio
 beautifulsoup4
+pypdf
+docx
