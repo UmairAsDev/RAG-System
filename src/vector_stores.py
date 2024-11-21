@@ -1,9 +1,8 @@
 from langchain_qdrant import QdrantVectorStore
 import yaml
 from llm_embedings import embeddings
-import uuid 
+import uuid
 from datetime import datetime
-
 
 def vector_database(docs):
     try:
@@ -23,18 +22,15 @@ def vector_database(docs):
             docs,
             embedding,
             url=url,
-            prefer_grpc = True,
+            prefer_grpc=True,
             api_key=api_key,
-            collection_name = "Rag_system",
+            collection_name="Rag_system",
         )
                 
         return qdrant_client
     except yaml.YAMLError as yaml_error:
-        print(f"Error Loading Configuration:{yaml_error}")
-        return None, []
+        print(f"Error Loading Configuration: {yaml_error}")
+        return None
     except Exception as e:
         print(f"Vector store is not created..{e}")
-        return None,  []
-
-
-
+        return None

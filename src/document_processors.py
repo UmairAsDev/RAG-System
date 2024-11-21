@@ -5,50 +5,38 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
 import tempfile
 import streamlit as st
-import uuid
-
-
 
 def load_document(uploaded_files):
     try:
-        
         all_contents = []
         for uploaded_file in uploaded_files:
-
             with tempfile.NamedTemporaryFile(delete=False, suffix=uploaded_file.name) as temp_file:
                 temp_file.write(uploaded_file.getvalue())
                 file_path = temp_file.name
 
             if file_path.endswith(".pdf"):
                 loader = PyPDFLoader(file_path)
-                # print(f"PDF Loader!:{type(loader)}")
                 content = loader.load()
-                # print(f"document.....{content}")
             elif file_path.endswith(".docx"):
                 loader = Docx2txtLoader(file_path)
-                print(f"Docx2txtLoader!:{type(loader)}")
                 content = loader.load()
             elif file_path.endswith(".csv"):
                 loader = CSVLoader(file_path)
-                # print(f"CSVLoader!:{type(loader)}")
                 content = loader.load()
             elif file_path.endswith(".txt"):
                 loader = TextLoader(file_path)
-                # print(f"TextLoader!:{type(loader)}")
                 content = loader.load()
             else:
                 st.error(f"Unsupported document format: {uploaded_file.name}")
                 continue
 
-            all_contents.extend(content) 
+            all_contents.extend(content)
 
         return all_contents if all_contents else None
 
     except Exception as e:
         st.error(f"Cannot load document... {e}")
         return None
-    
-   
 
 
 
@@ -67,30 +55,22 @@ def document_splitters(document):
             "",
         ]
         text_splitters = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-            chunk_size = 1000,
-            chunk_overlap = 100,
-            add_start_index = True,
-            strip_whitespace = True,
+            chunk_size=1000,
+            chunk_overlap=100,
+            add_start_index=True,
+            strip_whitespace=True,
             encoding_name="cl100k_base",
-            separators = MARKDOWN_SEPARATORS,
+            separators=MARKDOWN_SEPARATORS,
         )
-        
+
         for page in document:
             page_split = text_splitters.split_text(page.page_content)
             for page_sub_split in page_split:
                 page_no = page.metadata.get('page', 0)
-                metadata = {'source': document, 'page_no' : page_no + 1}
+                metadata = {'source': document, 'page_no': page_no + 1}
                 doc_string = Document(page_content=page_sub_split, metadata=metadata)
                 docs.append(doc_string)
         return docs
     except Exception as e:
         print(f"cannot split the document..{e}")
         return None
-
-# def format_doc(docs):
-#     return "\n\n".join(doc.page_content for doc in docs)
-
-
-# file_path = "data\documents\embeddings\My_Resume.pdf"
-# document = load_document(file_path)
-# print(document)

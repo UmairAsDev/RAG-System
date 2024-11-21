@@ -33,14 +33,3 @@ def load_model(model_name):
     except Exception as e:
         print(f"Cannot load model: {e}")
         return None, None
-
-
-# Usage example
-# model, tokenizer = load_model("Bart")
-
-# if model is not None and tokenizer is not None:
-#     print("Model and tokenizer loaded successfully.")
-#     print(f"Model: {model}")
-#     print(f"Tokenizer: {tokenizer}")
-# else:
-#     print("Failed to load model or tokenizer.")
