@@ -55,15 +55,16 @@ def main():
         user_query = st.chat_input("Type your message here...")
 
         if user_query:
-        # Display user message
+            # Display user message
             st.session_state.messages.append({"role": "user", "content": user_query})
             with st.chat_message("user"):
-               st.write(user_query)
+                st.write(user_query)
 
             # Process user query
             if st.session_state.qdrant_client:
+                # Initialize conversation handler
                 conversation_handler = conversation(
-                    model_name, split_docs, st.session_state.history, st.session_state.qdrant_client
+                    model_name, st.session_state.history, st.session_state.qdrant_client
                 )
                 result = conversation_handler(user_query)
                 ai_response = result["response"]
@@ -78,10 +79,8 @@ def main():
             else:
                 st.warning("Please upload and process documents before starting the conversation.")
 
-
     except Exception as e:
         st.error(f"An error occurred: {e}")
-
 
 if __name__ == "__main__":
     main()

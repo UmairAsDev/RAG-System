@@ -3,9 +3,11 @@ from langchain_huggingface.llms import HuggingFacePipeline
 from llm_manager import load_model
 from langchain.prompts import PromptTemplate
 from langchain.memory import ConversationBufferWindowMemory
+from transformers import AutoTokenizer, AutoModelForCausalLM
 from transformers import pipeline
 import torch
-from vector_stores import vector_database
+from document_processors import summarize_text
+from langchain_core.runnables import RunnableSequence
 import streamlit as st
 
 # Define the function to retrieve documents from the vector store based on the query
@@ -37,53 +39,57 @@ def display_response(response, is_streamlit):
 
 
 
-def conversation(model_name, docs, history, qdrant_client):
-    # Load the model and tokenizer
-    model, tokenizer = load_model(model_name)
-    if model is None or tokenizer is None:
-        raise ValueError("Failed to load model. Please check the model name and try again.")
 
-    hf_pipeline = pipeline(
-        "text-generation",
-        model=model,
-        tokenizer=tokenizer,
-        device=0 if torch.cuda.is_available() else -1,
-        max_new_tokens=10000,
-        max_length=200,
-    )
+from transformers import pipeline
+from langchain.prompts import PromptTemplate
+from langchain.memory import ConversationBufferWindowMemory
+
+def conversation(model_name, history, qdrant_client):
+    # Load the Hugging Face model and tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+    
+    # Initialize the pipeline
+    hf_pipeline = pipeline("text-generation", model=model, tokenizer=tokenizer)
     pipe = HuggingFacePipeline(pipeline=hf_pipeline)
 
-    # Prompt template for the conversation
+    # Define the prompt template
     prompt_template = PromptTemplate(
         input_variables=["history", "query", "retrieved_docs"],
-        template="conversation history:\n{history}\n\nRelevant documents:\n{retrieved_docs}\n\nUser: {query}\nAI:",
+        template=(
+            "Conversation history:\n{history}\n\n"
+            "Relevant documents:\n{retrieved_docs}\n\n"
+            "User: {query}\nAI:"
+        ),
     )
 
     memory = ConversationBufferWindowMemory(memory_key="history", k=5)
-    conversation_chain = LLMChain(llm=pipe, prompt=prompt_template, memory=memory)
 
     def handle_query(user_query):
         try:
-            # Retrieve relevant documents
+            # Check for casual greetings
+            greetings = ["hi", "hello", "hey", "how are you"]
+            if any(greeting in user_query.lower() for greeting in greetings):
+                ai_response = "Hi there! How can I assist you today?"
+                return {"response": ai_response, "retrieved_docs": ""}
+
+            # Retrieve relevant documents for other queries
             retrieved_docs = cached_retrieval(user_query, qdrant_client)
             print(f"Retrieved {len(retrieved_docs)} documents")
 
             if not retrieved_docs:
-                raise ValueError("No documents retrieved")
+                print("No documents retrieved.")
+                retrieved_text = "No relevant documents found."
+            else:
+                retrieved_text = "\n".join([summarize_text(doc.page_content) for doc in retrieved_docs])
 
-            retrieved_text = "\n".join([truncate_text(doc.page_content) for doc in retrieved_docs])
+            prompt_input = prompt_template.format(history=history, query=user_query, retrieved_docs=retrieved_text)
+            ai_response = pipe.invoke(prompt_input)
 
-            # Generate response from the conversation chain
-            ai_response = conversation_chain.run(
-                history=history,
-                query=user_query,
-                retrieved_docs=retrieved_text,
-            )
+            print(f"AI Response: {ai_response}")
 
             return {"response": ai_response, "retrieved_docs": retrieved_text}
         except Exception as e:
             print(f"Error in handle_query: {e}")
             return {"response": "An error occurred while processing your query.", "retrieved_docs": ""}
-
     return handle_query
-
