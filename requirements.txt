@@ -23,3 +23,4 @@ uuid-v9
 PyPDF2
 python-docx
 docx2txt
+langchain-qdrant
