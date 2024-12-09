@@ -1,6 +1,7 @@
-.venv
-notebooks
-*/.ipynb_checkpoints/*.ipynb
+env
+.env
+notebooks/
+rag-system.ipynb
 
 
 
