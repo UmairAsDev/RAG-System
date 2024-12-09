@@ -9,7 +9,7 @@ openapi_key = os.environ.get("OPENAI_API_KEY")
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="Chat with your file")
+    st.set_page_config(page_title="Document GPT")
     st.header("DocumentGPT")
 
     if "conversation" not in st.session_state:
